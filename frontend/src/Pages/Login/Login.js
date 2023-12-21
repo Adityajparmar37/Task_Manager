@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { login } from '../../Services/UserService';
 
 export default function Login() {
     const [form, setForm] = useState({
@@ -9,9 +10,8 @@ export default function Login() {
 
 
     const handlerSubmit = (e) => {
-
         e.preventDefault();
-        console.log(form);
+        login(form)
     }
 
     const handleChange = (e) => {

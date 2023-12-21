@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { singup } from '../../Services/UserService';
 
 export default function SignUp() {
     const [form, setForm] = useState({
@@ -13,7 +14,8 @@ export default function SignUp() {
     const handlerSubmit = (e) => {
 
         e.preventDefault();
-        console.log(form);
+        singup(form);
+
     }
 
     const handleChange = (e) => {
