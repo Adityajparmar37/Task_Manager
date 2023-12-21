@@ -11,10 +11,15 @@ export default function SignUp() {
     });
 
 
-    const handlerSubmit = (e) => {
-
+    ///API EndPoint
+    const handlerSubmit = async(e) => {
         e.preventDefault();
-        singup(form);
+        try{
+            const SignUpResponse = await singup(form);
+            console.log("SignUp API response: " , SignUpResponse);
+        }catch(error){
+            console.error("SignUp API Frontend Error: ",error)
+        }
 
     }
 

@@ -9,9 +9,15 @@ export default function Login() {
     });
 
 
-    const handlerSubmit = (e) => {
+    ///API EndPoint
+    const handlerSubmit = async (e) => {
         e.preventDefault();
-        login(form)
+        try {
+            const LoginResponse = await login(form);
+            console.log("Login API response: ", LoginResponse)
+        } catch (error) {
+            console.error("Login API Frontend Error: ", error);
+        }
     }
 
     const handleChange = (e) => {
