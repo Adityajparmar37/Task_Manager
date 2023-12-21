@@ -16,10 +16,10 @@ export const login = async (loginData) => {
 export const singup = async (signUpData) => {
     try {
         const { data } = await axios.post('api/user/signup', signUpData);
-        console.log("SignUp Frontend API ==> ", data);
+        // console.log("SignUp Frontend API ==> ", data);
         return data;
-    }catch(error){
-        console.log("SignUp API error Frontend:" , error)
+    } catch (error) {
+        console.log("SignUp API error Frontend:", error)
     }
-    
+
 }

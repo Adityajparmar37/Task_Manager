@@ -1,22 +1,33 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import Loading from '../../Components/Loading/Loading';
 import { login } from '../../Services/UserService';
 
 export default function Login() {
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         email: "",
         password: ""
     });
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
 
 
     ///API EndPoint
     const handlerSubmit = async (e) => {
         e.preventDefault();
         try {
+            setLoading(true);
             const LoginResponse = await login(form);
-            console.log("Login API response: ", LoginResponse)
+            console.log(LoginResponse)
+            localStorage.setItem("userInfo", JSON.stringify(LoginResponse))
+            navigate("/notes");
+            setLoading(false);
         } catch (error) {
+            setLoading(false);
             console.error("Login API Frontend Error: ", error);
+            setError(error.LoginResponse.data.message);
         }
     }
 
@@ -33,6 +44,7 @@ export default function Login() {
         // <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 h-screen max-h-screen bg-slate-200'>
         <div className=" flex items-center justify-center relative py-16 bg-gradient-to-br from-sky-50 to-gray-200 h-screen max-h-screen ">
             <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
+                {loading && <Loading />}
                 <div className="m-auto md:w-8/12 lg:w-6/12 xl:w-6/12">
                     <div className="rounded-xl bg-white shadow-xl">
                         <div className="sm:mx-auto sm:w-full sm:max-w-sm pt-5">
