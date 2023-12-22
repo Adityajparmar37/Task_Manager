@@ -4,6 +4,8 @@ const handler = require('express-async-handler');
 const errorHandler = require('../middlewares/errorMiddleware');
 const User = require('../models/userModel');
 const generateToken = require('../utils/generateToken');
+const jwt = require("jsonwebtoken");
+
 
 // login route
 router.post("/login", handler(async (req, res, next) => {
@@ -19,7 +21,7 @@ router.post("/login", handler(async (req, res, next) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                token: generateToken(user._id),
+                token: generateToken(user._id, user.name, user.email),
                 success: true
             });
         } else {
@@ -58,7 +60,7 @@ router.post("/signup", handler(async (req, res, next) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                token: generateToken(user._id),
+                token: generateToken(user._id, user.name, user.email),
                 success: true
             });
         } else {
@@ -67,6 +69,23 @@ router.post("/signup", handler(async (req, res, next) => {
     } catch (error) {
         // console.error("SignUp error", error);
         next(error);
+    }
+}))
+
+
+router.get('/auth', handler(async (req, res, next) => {
+
+    const token = req.header('Authorization');
+    if (token) {
+        const tokenValue = token.replace('Bearer ', '');
+        jwt.verify(tokenValue, process.env.JWT_SECRET, {}, (err, user) => {
+            if (err) {
+                next(errorHandler(401, "Unauthorizated User"));
+            }
+            res.json(user);
+        })
+    } else {
+        res.json(null);
     }
 }))
 

@@ -24,3 +24,15 @@ export const singup = async (signUpData) => {
     }
 
 }
+
+export const getUser = () =>
+    localStorage.getItem('user')
+        ? JSON.parse(localStorage.getItem('user'))
+        : null;
+
+
+export const logout = () => {
+    localStorage.removeItem('user');
+    // localStorage.removeItem('cart');
+    document.title = 'FOOD MINE ! '
+};
