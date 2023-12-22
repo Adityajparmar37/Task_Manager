@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const handler = require('express-async-handler');
+const errorHandler = require('../middlewares/errorMiddleware');
 const User = require('../models/userModel');
 const generateToken = require('../utils/generateToken');
 
 // login route
-router.post("/login", handler(async (req, res) => {
+router.post("/login", handler(async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
+
+        if (!user) return next(errorHandler(404, 'User not found'));
 
         if (user && (await user.matchPassword(password))) {
             res.json({
@@ -19,26 +22,24 @@ router.post("/login", handler(async (req, res) => {
                 token: generateToken(user._id)
             });
         } else {
-            res.status(400);
-            throw new Error("Invalid Email or Password");
+            res.status(401);
+            throw new Error("Wrong Credentials");
         }
 
     } catch (error) {
-        console.error("Login error", error);
-        res.status(500).send("Internal Server Error");
+        next(error);
     }
 }));
 
 
 
-router.post("/signup", handler(async (req, res) => {
+router.post("/signup", handler(async (req, res, next) => {
     try {
         const { name, email, password, conformPassword } = req.body;
 
         const userExists = await User.findOne({ email });
         if (userExists) {
-            res.status(400);
-            throw new Error("User Already Exists");
+            next(errorHandler(400, "User Already exist"))
         }
 
         const user = await User.create({
@@ -55,12 +56,11 @@ router.post("/signup", handler(async (req, res) => {
                 token: generateToken(user._id)
             });
         } else {
-            res.status(400);
-            throw new Error("Error Occurred!");
+            next(errorHandler(400, "Something Went Wrong"));
         }
     } catch (error) {
-        console.error("SignUp error", error);
-        res.status(500).send("Internal Server Error");
+        // console.error("SignUp error", error);
+        next(error);
     }
 }))
 

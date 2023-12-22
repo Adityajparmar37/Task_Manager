@@ -11,8 +11,7 @@ export default function Login() {
     });
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-
+    
 
     ///API EndPoint
     const handlerSubmit = async (e) => {
@@ -26,8 +25,8 @@ export default function Login() {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            console.error("Login API Frontend Error: ", error);
-            setError(error.LoginResponse.data.message);
+            // next()
+            // console.error("Login API Frontend Error: ", error);
         }
     }
 
@@ -44,7 +43,7 @@ export default function Login() {
         // <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 h-screen max-h-screen bg-slate-200'>
         <div className=" flex items-center justify-center relative py-16 bg-gradient-to-br from-sky-50 to-gray-200 h-screen max-h-screen ">
             <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
-                {loading && <Loading />}
+                {/* {loading && <Loading />} */}
                 <div className="m-auto md:w-8/12 lg:w-6/12 xl:w-6/12">
                     <div className="rounded-xl bg-white shadow-xl">
                         <div className="sm:mx-auto sm:w-full sm:max-w-sm pt-5">
