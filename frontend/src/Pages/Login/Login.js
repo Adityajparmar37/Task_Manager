@@ -11,7 +11,7 @@ export default function Login() {
     });
 
     const [loading, setLoading] = useState(false);
-    
+
 
     ///API EndPoint
     const handlerSubmit = async (e) => {
@@ -19,14 +19,20 @@ export default function Login() {
         try {
             setLoading(true);
             const LoginResponse = await login(form);
-            console.log(LoginResponse)
-            localStorage.setItem("userInfo", JSON.stringify(LoginResponse))
-            navigate("/notes");
-            setLoading(false);
+            // console.log(LoginResponse)
+
+            if (LoginResponse.success === true) {
+                localStorage.setItem("userInfo", JSON.stringify(LoginResponse))
+                navigate("/notes");
+                setLoading(false);
+            }
+            else {
+                setLoading(false);
+                console.log(LoginResponse.message);
+            }
         } catch (error) {
             setLoading(false);
-            // next()
-            // console.error("Login API Frontend Error: ", error);
+            console.error("Login API Frontend Error: ", error);
         }
     }
 

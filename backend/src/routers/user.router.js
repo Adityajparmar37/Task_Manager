@@ -22,8 +22,7 @@ router.post("/login", handler(async (req, res, next) => {
                 token: generateToken(user._id)
             });
         } else {
-            res.status(401);
-            throw new Error("Wrong Credentials");
+            next(errorHandler(401, "Wrong Credentials"))
         }
 
     } catch (error) {

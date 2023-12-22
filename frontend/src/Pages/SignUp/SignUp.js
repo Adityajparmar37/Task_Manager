@@ -12,7 +12,7 @@ export default function SignUp() {
         conformPassword: "",
     });
     const [loading, setLoading] = useState(false);
-        
+
 
     ///API EndPoint
     const handlerSubmit = async (e) => {
@@ -25,16 +25,23 @@ export default function SignUp() {
             setLoading(true);
             const SignUpResponse = await singup(form);
 
-            // Ensure SignUpResponse contains the expected structure
-            const { _id, name, email } = SignUpResponse;
+            if (SignUpResponse.success === true) {
 
-            // Store user information in localStorage
-            localStorage.setItem("userInfo", JSON.stringify({ _id, name, email }));
-            navigate("/notes");
-            setLoading(false);
+
+                const { _id, name, email } = SignUpResponse;
+
+                // Store user information in localStorage
+                localStorage.setItem("userInfo", JSON.stringify({ _id, name, email }));
+                navigate("/notes");
+                setLoading(false);
+            }
+            else {
+                setLoading(false);
+                console.log(SignUpResponse.message);
+            }
         } catch (error) {
             setLoading(false);
-            // console.error("SignUp API Frontend Error: ", error);
+            console.error("SignUp API Frontend Error: ", error);
         }
     }
 
