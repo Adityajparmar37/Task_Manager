@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Loading from '../../Components/Loading/Loading';
 import { singup } from '../../Services/UserService';
+import toast from 'react-hot-toast';
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -19,28 +20,53 @@ export default function SignUp() {
         e.preventDefault();
         try {
             if (form.password !== form.conformPassword) {
-                console.log("Password must match")
+                toast.error("Password must match", {
+                    iconTheme: {
+                        primary: '#000',
+                    },
+                    style: {
+                        width: '15rem',
+                        color: 'white',
+                        background: 'red'
+                    }
+                });
                 return;
             }
             setLoading(true);
             const SignUpResponse = await singup(form);
 
             if (SignUpResponse.success === true) {
-
-
                 const { _id, name, email } = SignUpResponse;
-
                 // Store user information in localStorage
                 localStorage.setItem("userInfo", JSON.stringify({ _id, name, email }));
+                toast.success('Successfully Login !', {
+                    icon: '👏',
+                    style: {
+                        width: '15rem',
+                        color: 'white',
+                        background: '#3FFF00'
+                    }
+                })
                 navigate("/notes");
                 setLoading(false);
             }
             else {
                 setLoading(false);
-                console.log(SignUpResponse.message);
+                // console.log(SignUpResponse.message);
+                toast.error(SignUpResponse.message, {
+                    iconTheme: {
+                        primary: '#000',
+                    },
+                    style: {
+                        width: '15rem',
+                        color: 'white',
+                        background: 'red'
+                    }
+                });
             }
         } catch (error) {
             setLoading(false);
+            toast.error("Some Error Occured !")
             console.error("SignUp API Frontend Error: ", error);
         }
     }

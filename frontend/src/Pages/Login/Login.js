@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Loading from '../../Components/Loading/Loading';
 import { login } from '../../Services/UserService';
+import toast from 'react-hot-toast';
+
 
 export default function Login() {
     const navigate = useNavigate();
@@ -23,15 +25,34 @@ export default function Login() {
 
             if (LoginResponse.success === true) {
                 localStorage.setItem("userInfo", JSON.stringify(LoginResponse))
+                toast.success('Successfully Login !', {
+                    icon: '👏',
+                    style: {
+                        width: '15rem',
+                        color: 'white',
+                        background: '#3FFF00'
+                    }
+                })
                 navigate("/notes");
                 setLoading(false);
             }
             else {
                 setLoading(false);
-                console.log(LoginResponse.message);
+                // console.log(LoginResponse.message);
+                toast.error(LoginResponse.message, {
+                    iconTheme: {
+                        primary: '#000',
+                    },
+                    style: {
+                        width: '15rem',
+                        color: 'white',
+                        background: 'red'
+                    }
+                });
             }
         } catch (error) {
             setLoading(false);
+            toast.error("Some Error Occured !")
             console.error("Login API Frontend Error: ", error);
         }
     }

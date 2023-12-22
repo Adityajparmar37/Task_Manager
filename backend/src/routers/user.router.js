@@ -19,7 +19,8 @@ router.post("/login", handler(async (req, res, next) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                token: generateToken(user._id)
+                token: generateToken(user._id),
+                success: true
             });
         } else {
             next(errorHandler(401, "Wrong Credentials"))
@@ -35,6 +36,11 @@ router.post("/login", handler(async (req, res, next) => {
 router.post("/signup", handler(async (req, res, next) => {
     try {
         const { name, email, password, conformPassword } = req.body;
+
+
+        if (!name || !email || !password || !conformPassword) {
+            next(errorHandler(401, "Please fill the fields"))
+        }
 
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -52,7 +58,8 @@ router.post("/signup", handler(async (req, res, next) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                token: generateToken(user._id)
+                token: generateToken(user._id),
+                success: true
             });
         } else {
             next(errorHandler(400, "Something Went Wrong"));
