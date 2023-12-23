@@ -4,7 +4,6 @@ import { AuthContext } from '../../context/AuthContext';
 
 export default function DefaultPage() {
     const { user } = useContext(AuthContext);
-    const userToken = user && user.token ? user.token : null;
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-slate-200 relative">
             <h1 className="text-[6vw] leading-none tracking-tighter text-center text-zinc-700 mb-8">Note Manager</h1>

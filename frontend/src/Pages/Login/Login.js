@@ -67,7 +67,7 @@ export default function Login() {
     }
 
 
-    const userToken = user && user.token ? user.token : null;
+   
     return (
         // <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 h-screen max-h-screen bg-slate-200'>
         <div className=" flex items-center justify-center relative py-16 bg-gradient-to-br from-sky-50 to-gray-200 h-screen max-h-screen ">
