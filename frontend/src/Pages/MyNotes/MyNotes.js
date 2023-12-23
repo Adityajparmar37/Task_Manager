@@ -11,7 +11,6 @@ export default function MyNotes() {
         <>
             <Header />
             <h1>My Notes</h1>
-
             <h1>{user && user.name}</h1>
         </>
     );
