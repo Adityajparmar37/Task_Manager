@@ -1,10 +1,14 @@
 import React from 'react';
 import { BiSolidNote } from 'react-icons/bi';
 import { MdDelete } from 'react-icons/md';
+import { deleteNote } from '../../Services/NoteService';
 
-export default function Notes({ title, text, date, category }) {
-    const handleDelete = () => {
-
+export default function Notes({ id, title, text, date, category, onDelete }) {
+    const handleDelete = async () => {
+        console.log("Delete ID ==> ", id)
+        const data = await deleteNote(id);
+        onDelete(id);
+        console.log(data);
     }
     return (
         <div className='relative w-80 h-72 rounded-[30px] bg-gray-200/40 text-black px-5 py-10 overflow-hidden m-5'>
@@ -20,7 +24,7 @@ export default function Notes({ title, text, date, category }) {
                 <div className='flex items-center justify-between mb-3 px-8 py-3'>
                     <h5>{date}</h5>
                     <span className='w-7 h-7 bg-slate-200 rounded-full flex items-center justify-center'>
-                        <button onChange={handleDelete}>
+                        <button onClick={handleDelete}>
                             <MdDelete size='1rem' color='#000' />
                         </button>
                     </span>

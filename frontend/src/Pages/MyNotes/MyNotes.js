@@ -27,6 +27,13 @@ export default function MyNotes() {
         fetchNotes();
     }, [user]);
 
+    // console.log(notes.map((noteData,index)=>{
+    //     console.log(noteData._id)
+    // }))
+    const handleDeleteNote = (deletedNoteId) => {
+        setNotes((prevNotes) => prevNotes.filter((note) => note._id !== deletedNoteId));
+    }
+
     return (
         <>
             <Header />
@@ -39,11 +46,12 @@ export default function MyNotes() {
                         notes.map((noteData, index) => (
                             <Notes
                                 key={index}
-                                id={noteData.id}
+                                id={noteData._id}
                                 title={noteData.title}
                                 text={noteData.content}
                                 date={noteData.date}
                                 category={noteData.category}
+                                onDelete={handleDeleteNote}
                             />
                         ))
                     ) : (
@@ -53,7 +61,7 @@ export default function MyNotes() {
                     )}
                 </div>
             </div>
-            <Create notes={notes} setNotes={setNotes}/>
+            <Create notes={notes} setNotes={setNotes} />
         </>
     );
 }

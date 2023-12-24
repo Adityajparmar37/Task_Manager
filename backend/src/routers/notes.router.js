@@ -46,9 +46,10 @@ router.get("/getNoteById/:id", handler(async (req, res, next) => {
     }
 }));
 
-// Delete a note by ID
+
 router.delete("/delete/:id", handler(async (req, res, next) => {
     const noteId = req.params.id;
+    // console.log("notID==>", noteId);
     const note = await Notes.findById(noteId);
 
     if (!note) {
@@ -59,11 +60,11 @@ router.delete("/delete/:id", handler(async (req, res, next) => {
         return next(errorHandler(401, "You can't perform this action"));
     }
 
-    await note.remove();
+    await Notes.deleteOne({ _id: noteId });
     res.json({ message: "Note removed successfully" });
 }));
 
-// Update a note by ID
+
 router.put("/update/:id", handler(async (req, res, next) => {
     const { title, content, category } = req.body;
     const noteId = req.params.id;

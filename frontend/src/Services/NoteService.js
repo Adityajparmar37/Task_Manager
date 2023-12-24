@@ -24,7 +24,8 @@ export const createNote = async (noteData) => {
 
 export const deleteNote = async (id) => {
     try {
-        const { data } = await axios.get('/api/notes/delete', id);
+        // console.log("id==>", id)
+        const { data } = await axios.delete(`/api/notes/delete/${id}`);
         return data;
     } catch (error) {
         return error.response.data;
