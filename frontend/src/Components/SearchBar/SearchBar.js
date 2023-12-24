@@ -10,7 +10,7 @@ export default function SearchBar() {
           type="text"
           placeholder="Search"
         />
-        <div className="bg-orange-600 p-2 hover:bg-orange-800 cursor-pointer mx-2 rounded-full">
+        <div className="bg-sky-600 p-2 hover:bg-sky-800 cursor-pointer mx-2 rounded-full">
           <svg
             className="w-5 h-5 text-white"
             xmlns="http://www.w3.org/2000/svg"

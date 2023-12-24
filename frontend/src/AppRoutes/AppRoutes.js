@@ -12,7 +12,7 @@ import { AuthContextProvider } from "../context/AuthContext";
 
 export default function AppRoutes() {
   return <BrowserRouter>
-    <AuthContextProvider>
+    {/* <AuthContextProvider> */}
       <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
       <Routes>
         <Route path="/" element={<DefaultPage />} />
@@ -20,6 +20,6 @@ export default function AppRoutes() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/notes" element={<MyNotes />} />
       </Routes>
-    </AuthContextProvider>
+    {/* </AuthContextProvider> */}
   </BrowserRouter>
 }

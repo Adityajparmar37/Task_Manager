@@ -67,7 +67,7 @@ export default function Login() {
     }
 
 
-   
+
     return (
         // <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 h-screen max-h-screen bg-slate-200'>
         <div className=" flex items-center justify-center relative py-16 bg-gradient-to-br from-sky-50 to-gray-200 h-screen max-h-screen ">
@@ -120,7 +120,7 @@ export default function Login() {
                                 <div>
                                     <button
                                         type="submit"
-                                        className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                         Sign in
                                     </button>
                                 </div>
@@ -128,7 +128,7 @@ export default function Login() {
 
                             <p className="mt-10 text-center text-sm text-gray-500">
                                 Not a user ? {' '}
-                                <Link to="/signup" className="font-semibold leading-6 text-orange-600 hover:text-orange-700">
+                                <Link to="/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-800">
                                     Sign Up
                                 </Link>
                             </p>
