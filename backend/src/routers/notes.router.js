@@ -5,21 +5,38 @@ const authMid = require('../middlewares/authMiddleware.js');
 const errorHandler = require('../middlewares/errorMiddleware.js');
 const Notes = require('../models/notesModel.js');
 
-
 router.use(authMid);
 
-router.get("/mynotes", handler(async (req, res, next) => {
+// Create a note
+router.post("/create", handler(async (req, res, next) => {
+    const { title, content, category } = req.body;
 
-    const notes = await Notes.find({ user: req.user.id })
+    if (!title || !content || !category) {
+        return next(errorHandler(400, "Please fill all the fields"));
+    }
 
-    if (!notes) next(errorHandler(404, "Please create note"));
+    const createNote = new Notes({
+        user: req.user.id,
+        title,
+        content,
+        category,
+        success: true,
+    });
+
+    const createdNote = await createNote.save();
+
+    res.status(201).json(createdNote);
+}));
+
+// Get all notes for the authenticated user
+router.get("/mynotes", handler(async (req, res) => {
+    const notes = await Notes.find({ user: req.user.id });
     res.json(notes);
 }));
 
-router.get("/getNoteById", handler(async (req, res, next) => {
-
+// Get a note by ID
+router.get("/getNoteById/:id", handler(async (req, res, next) => {
     const noteId = req.params.id;
-
     const note = await Notes.findById(noteId);
 
     if (note) {
@@ -27,78 +44,45 @@ router.get("/getNoteById", handler(async (req, res, next) => {
     } else {
         next(errorHandler(404, "Note not found"));
     }
-
-    res.json(note);
-}))
-
-router.get("/create", handler(async (req, res, next) => {
-    const { title, content, category } = req.body;
-
-    if (!title || !content || !category) {
-        next(errorHandler(400, "Please Fill all the fields"));
-    }
-
-    else {
-
-        const createNote = new Notes(
-            {
-                user: req.user.id,
-                title,
-                content,
-                category,
-            }
-        );
-
-        const createdNoted = await createNote.save();
-
-        res.status(201).json(createdNoted);
-    }
-}))
-
-
-router.get("/delete", handler(async (req, res, next) => {
-    const noteId = req.params.id;
-    console.log(noteId);
-    const note = await Notes.findById("6587f6bc7b420f7f261130a1");
-
-    console.log("Delete note ==> ", note)
-
-    if (note.user.toString() !== req.user.id.toString()) {
-        next(errorHandler(401, "You can't perform this action"));
-    }
-
-    if (note) {
-        await note.remove();
-        res.json({ message: "Note Removed successfully" });
-    } else {
-        next(errorHandler(404, "Note not Found"));
-    }
-}))
-
-
-
-router.put("/update", handler(async (req, res) => {
-
-    const { title, content, category } = req.body;
-
-    const note = await Notes.findById(req.params.id);
-
-    if (note.user.toString() !== req.user.id.toString()) {
-        next(errorHandler(401, "You can't perform this action"));
-    }
-
-    if (note) {
-
-        note.title = title;
-        note.content = content;
-        note.category = category;
-
-        const updatedNote = await note.save();
-        res.json(updatedNote);
-    } else {
-        next(errorHandler(404, "Note not Found"));
-    }
 }));
 
+// Delete a note by ID
+router.delete("/delete/:id", handler(async (req, res, next) => {
+    const noteId = req.params.id;
+    const note = await Notes.findById(noteId);
+
+    if (!note) {
+        return next(errorHandler(404, "Note not found"));
+    }
+
+    if (note.user.toString() !== req.user.id.toString()) {
+        return next(errorHandler(401, "You can't perform this action"));
+    }
+
+    await note.remove();
+    res.json({ message: "Note removed successfully" });
+}));
+
+// Update a note by ID
+router.put("/update/:id", handler(async (req, res, next) => {
+    const { title, content, category } = req.body;
+    const noteId = req.params.id;
+    const note = await Notes.findById(noteId);
+
+    if (!note) {
+        return next(errorHandler(404, "Note not found"));
+    }
+
+    if (note.user.toString() !== req.user.id.toString()) {
+        return next(errorHandler(401, "You can't perform this action"));
+    }
+
+    note.title = title;
+    note.content = content;
+    note.category = category;
+
+    const updatedNote = await note.save();
+    res.json(updatedNote);
+}));
 
 module.exports = router;

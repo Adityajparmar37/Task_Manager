@@ -46,7 +46,7 @@ export default function SignUp() {
             console.log(SignUpResponse);
         } catch (error) {
             toast.error("Some Error Occured !")
-            console.error("SignUp API Frontend Error: ", error);
+            console.log("SignUp API Frontend Error: ", error);
         }
     }
 

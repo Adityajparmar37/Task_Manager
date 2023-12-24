@@ -10,7 +10,7 @@ const authMid = handler(async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = await User.findById(decoded.id).select("-password");
-        console.log("user jwt verify ==> ", req.user);
+        // console.log("user jwt verify ==> ", req.user);
         next();
     } catch (error) {
         console.log("AuthMiddleware backend ==> ", error);
