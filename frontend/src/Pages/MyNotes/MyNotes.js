@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
 import Create from '../../Components/Create/Create';
 import Filter from '../../Components/Filter/Filter';
 import Header from '../../Components/Header/Header';
 import Notes from '../../Components/Notes/Notes';
-import SearchBar from '../../Components/SearchBar/SearchBar';
 import notes from '../../utils/data/data';
+import { useAuth } from '../../Hooks/useAuth';
 
 export default function MyNotes() {
-    const { user } = useContext(AuthContext);
+
+    const { user } = useAuth();
+
 
     return (
         <>

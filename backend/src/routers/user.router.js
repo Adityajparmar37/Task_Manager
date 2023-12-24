@@ -72,21 +72,4 @@ router.post("/signup", handler(async (req, res, next) => {
     }
 }))
 
-
-router.get('/auth', handler(async (req, res, next) => {
-
-    const token = req.header('Authorization');
-    if (token) {
-        const tokenValue = token.replace('Bearer ', '');
-        jwt.verify(tokenValue, process.env.JWT_SECRET, {}, (err, user) => {
-            if (err) {
-                next(errorHandler(401, "Unauthorizated User"));
-            }
-            res.json(user);
-        })
-    } else {
-        res.json(null);
-    }
-}))
-
 module.exports = router;

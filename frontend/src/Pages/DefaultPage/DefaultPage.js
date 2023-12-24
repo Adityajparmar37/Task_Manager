@@ -1,9 +1,6 @@
-import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
 
 export default function DefaultPage() {
-    const { user } = useContext(AuthContext);
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-slate-200 relative">
             <h1 className="text-[6vw] leading-none tracking-tighter text-center text-zinc-900 mb-8">Note Manager</h1>
