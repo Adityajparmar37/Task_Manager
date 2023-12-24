@@ -4,7 +4,6 @@ const handler = require('express-async-handler');
 const errorHandler = require('../middlewares/errorMiddleware');
 const User = require('../models/userModel');
 const generateToken = require('../utils/generateToken');
-const jwt = require("jsonwebtoken");
 
 
 // login route
