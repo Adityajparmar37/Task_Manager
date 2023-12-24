@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Loading from '../../Components/Loading/Loading';
 import { singup } from '../../Services/UserService';
 import toast from 'react-hot-toast';
+import { useAuth } from '../../Hooks/useAuth';
 
 export default function SignUp() {
     const navigate = useNavigate();
+    const [params] = useSearchParams();
+    const returnUrl = params.get('returnUrl');
+    const { user, singup } = useAuth();
     const [form, setForm] = useState({
         name: "",
         email: "",
         password: "",
         conformPassword: "",
     });
-    const [loading, setLoading] = useState(false);
 
+
+    useEffect(() => {
+        if (!user) return;
+
+        returnUrl ? navigate(returnUrl) : navigate("/notes");
+    }, [user])
 
     ///API EndPoint
     const handlerSubmit = async (e) => {
@@ -32,40 +41,10 @@ export default function SignUp() {
                 });
                 return;
             }
-            setLoading(true);
-            const SignUpResponse = await singup(form);
 
-            if (SignUpResponse.success === true) {
-                const { _id, name, email } = SignUpResponse;
-                // Store user information in localStorage
-                localStorage.setItem("userInfo", JSON.stringify({ _id, name, email }));
-                toast.success('Successfully Login !', {
-                    icon: '👏',
-                    style: {
-                        width: '15rem',
-                        color: 'white',
-                        background: '#3FFF00'
-                    }
-                })
-                navigate("/notes");
-                setLoading(false);
-            }
-            else {
-                setLoading(false);
-                // console.log(SignUpResponse.message);
-                toast.error(SignUpResponse.message, {
-                    iconTheme: {
-                        primary: '#000',
-                    },
-                    style: {
-                        width: '15rem',
-                        color: 'white',
-                        background: 'red'
-                    }
-                });
-            }
+            const SignUpResponse = await singup(form);
+            console.log(SignUpResponse);
         } catch (error) {
-            setLoading(false);
             toast.error("Some Error Occured !")
             console.error("SignUp API Frontend Error: ", error);
         }

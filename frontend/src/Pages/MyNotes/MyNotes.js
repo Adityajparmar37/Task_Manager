@@ -16,9 +16,10 @@ export default function MyNotes() {
             <div className='flex'>
                 <Filter />
                 <div className='grid grid-cols-3 gap-5 w-4/5 h-[39rem] mt-5 mx-auto'>
-                    {notes.slice(0, 6).map((noteData) => (
-                        <Notes key={noteData._id} title={noteData.title} text={noteData.content} date={"12/12/30"} category={noteData.category} />
+                    {notes.map((noteData, index) => (
+                        <Notes key={index} title={noteData.title} text={noteData.content} date={"12/12/30"} category={noteData.category} />
                     ))}
+
                 </div>
             </div>
             <Create />

@@ -16,7 +16,7 @@ export const login = async (loginData) => {
 export const singup = async (signUpData) => {
     try {
         const { data } = await axios.post('api/user/signup', signUpData);
-        // console.log("SignUp Frontend API ==> ", data);
+        console.log("SignUp Frontend API ==> ", data);
         return data;
     } catch (error) {
         // console.log("SignUp API error Frontend:", error.response.data);
@@ -26,13 +26,11 @@ export const singup = async (signUpData) => {
 }
 
 export const getUser = () =>
-    localStorage.getItem('user')
-        ? JSON.parse(localStorage.getItem('user'))
+    localStorage.getItem('userInfo')
+        ? JSON.parse(localStorage.getItem('userInfo'))
         : null;
 
 
 export const logout = () => {
-    localStorage.removeItem('user');
-    // localStorage.removeItem('cart');
-    document.title = 'FOOD MINE ! '
+    localStorage.removeItem('userInfo');
 };

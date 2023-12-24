@@ -4,22 +4,24 @@ import Login from "../Pages/Login/Login";
 import MyNotes from "../Pages/MyNotes/MyNotes";
 import SignUp from "../Pages/SignUp/SignUp";
 import { Toaster } from 'react-hot-toast';
-import { AuthContextProvider } from "../context/AuthContext";
+import AuthRoute from "../Components/AuthRoute/AuthRoute";
 
 
 
 
 
 export default function AppRoutes() {
-  return <BrowserRouter>
-    {/* <AuthContextProvider> */}
+  return (
+    <>
       <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
       <Routes>
         <Route path="/" element={<DefaultPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/notes" element={<MyNotes />} />
+        <Route path="/notes" element={<AuthRoute>
+          <MyNotes />
+        </AuthRoute>} />
       </Routes>
-    {/* </AuthContextProvider> */}
-  </BrowserRouter>
+    </>
+  );
 }
