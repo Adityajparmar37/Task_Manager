@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import toast from 'react-hot-toast';
-import { getNotes, updateNote } from '../../Services/NoteService';
+import { updateNote } from '../../Services/NoteService';
 
 export default function UpdateNote({ modalIsOpen, closeModal, id, title, text, category, setNotes }) {
     const [updateNoteData, setUpdateNoteData] = useState({
