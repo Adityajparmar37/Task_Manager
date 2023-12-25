@@ -26,11 +26,13 @@ export default function Create({ note, setNotes }) {
         e.preventDefault();
         try {
             const noteData = await createNote(newNoteData);
-            setNotes((prevData) => [
-                ...prevData,
-                newNoteData
-            ]);
             toast.success("Note created successfully!");
+            setNotes((prevData) => {
+                return [
+                    ...prevData,
+                    newNoteData
+                ]
+            });
 
             // Redirect to the notes page after successful creation
             // navigate("/notes");

@@ -3,14 +3,16 @@ import { BiSolidNote } from 'react-icons/bi';
 import { MdDelete } from 'react-icons/md';
 import { deleteNote } from '../../Services/NoteService';
 import UpdateNote from '../UpdateNote/UpdateNote';
+import toast from 'react-hot-toast';
 
-export default function Notes({ id, title, text, date, category, onDelete,}) {
+export default function Notes({ id, title, text, date, category, onDelete, setNotes }) {
 
     const handleDelete = async () => {
         // console.log("Delete ID ==> ", id)
         const data = await deleteNote(id);
         onDelete(id);
-        console.log(data);
+        toast.success("Remove note Successfully");
+        // console.log(data);
     }
 
     const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -47,7 +49,7 @@ export default function Notes({ id, title, text, date, category, onDelete,}) {
                             <h3 className='text-sm font-semibold text-white'>Update Note</h3>
                         </button>
                         {modalIsOpen && (
-                            <UpdateNote modalIsOpen={modalIsOpen} closeModal={closeModal} id={id} title={title} text={text} category={category} />
+                            <UpdateNote setNotes={setNotes} modalIsOpen={modalIsOpen} closeModal={closeModal} id={id} title={title} text={text} category={category} />
                         )}
                     </div>
                 </div>

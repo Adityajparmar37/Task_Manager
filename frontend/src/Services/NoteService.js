@@ -4,7 +4,7 @@ export const getNotes = async () => {
 
     try {
         const { data } = await axios.get('/api/notes/mynotes');
-        console.log("Note for user ==> ", data);
+        // console.log("Note for user ==> ", data);
         return data;
     } catch (error) {
         return error.response.data;
@@ -36,6 +36,7 @@ export const deleteNote = async (id) => {
 export const updateNote = async (id, updateNoteData) => {
     try {
         const { data } = await axios.put(`/api/notes/update/${id}`, updateNoteData);
+        console.log("Update api frontend ==> ", data);
         return data;
     } catch (error) {
         return error.response.data;

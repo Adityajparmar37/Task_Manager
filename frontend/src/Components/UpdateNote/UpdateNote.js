@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import toast from 'react-hot-toast';
-import { updateNote } from '../../Services/NoteService';
+import { getNotes, updateNote } from '../../Services/NoteService';
 
-export default function UpdateNote({ modalIsOpen, closeModal, id, title, text, category}) {
+export default function UpdateNote({ modalIsOpen, closeModal, id, title, text, category, setNotes }) {
     const [updateNoteData, setUpdateNoteData] = useState({
         title: title,
         content: text,
         category: category
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const noteData = updateNote(id, updateNoteData);
+            const noteData = await updateNote(id, updateNoteData);
             toast.success("Note updated successfully!");
-            console.log("Update data ", noteData);
+            setNotes((prevData) => {
+                return prevData.map((note) => {
+                    if (note._id === id) {
+                        return updateNoteData;
+                    }
+                    return note;
+                });
+            });
+            // console.log("Update data ", noteData);
             closeModal();  // Optionally, close the modal upon successful update
         } catch (error) {
             toast.error("Note not updated. Please try again!");
