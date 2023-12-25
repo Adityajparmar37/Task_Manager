@@ -32,3 +32,13 @@ export const deleteNote = async (id) => {
     }
 }
 
+
+export const updateNote = async (id, updateNoteData) => {
+    try {
+        const { data } = await axios.put(`/api/notes/update/${id}`, updateNoteData);
+        return data;
+    } catch (error) {
+        return error.response.data;
+    }
+}
+

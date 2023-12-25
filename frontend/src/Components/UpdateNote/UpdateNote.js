@@ -1,16 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import Modal from 'react-modal';
+import toast from 'react-hot-toast';
+import { updateNote } from '../../Services/NoteService';
 
-export default function UpdateNote({ modalIsOpen, closeModal }) {
+export default function UpdateNote({ modalIsOpen, closeModal, id, title, text, category}) {
+    const [updateNoteData, setUpdateNoteData] = useState({
+        title: title,
+        content: text,
+        category: category
+    });
 
-    console.log("modalIsopen-->", modalIsOpen);
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        try {
+            const noteData = updateNote(id, updateNoteData);
+            toast.success("Note updated successfully!");
+            console.log("Update data ", noteData);
+            closeModal();  // Optionally, close the modal upon successful update
+        } catch (error) {
+            toast.error("Note not updated. Please try again!");
+            console.log("Error while updating note: ", error);
+        }
     }
 
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setUpdateNoteData({
+            ...updateNoteData,
+            [e.target.name]: e.target.value
+        });
     }
+
     return (
         <>
             <div>
@@ -31,6 +50,7 @@ export default function UpdateNote({ modalIsOpen, closeModal }) {
                                     type="text"
                                     className="p-1 rounded-md mt-2 outline-none focus:border-b-2 focus:border-black"
                                     placeholder="Title"
+                                    value={updateNoteData.title}
                                 />
                             </div>
 
@@ -39,9 +59,10 @@ export default function UpdateNote({ modalIsOpen, closeModal }) {
                                 <textarea
                                     name='content'
                                     onChange={handleChange}
-                                    type="textare"
+                                    type="textarea"
                                     className="p-1 rounded-md mt-2 outline-none focus:border-b-2 focus:border-black"
                                     placeholder="Description"
+                                    value={updateNoteData.content}
                                 />
                             </div>
 
@@ -53,6 +74,7 @@ export default function UpdateNote({ modalIsOpen, closeModal }) {
                                     type="text"
                                     className="p-1 rounded-md mt-2 outline-none focus:border-b-2 focus:border-black"
                                     placeholder="Category"
+                                    value={updateNoteData.category}
                                 />
                             </div>
 
@@ -60,7 +82,7 @@ export default function UpdateNote({ modalIsOpen, closeModal }) {
                                 <button
                                     type="submit"
                                     className="bg-indigo-500/90 text-white px-4 py-2 outline-none rounded hover:bg-indigo-600 mt-4">
-                                    Create
+                                    Update
                                 </button>
                                 <button
                                     type="button"
@@ -74,10 +96,5 @@ export default function UpdateNote({ modalIsOpen, closeModal }) {
                 </Modal>
             </div>
         </>
-    )
+    );
 }
-
-
-
-
-

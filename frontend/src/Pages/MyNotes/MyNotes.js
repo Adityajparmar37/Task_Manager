@@ -4,7 +4,6 @@ import Filter from '../../Components/Filter/Filter';
 import Header from '../../Components/Header/Header';
 import Loading from '../../Components/Loading/Loading';
 import Notes from '../../Components/Notes/Notes';
-import UpdateNote from '../../Components/UpdateNote/UpdateNote';
 import { useAuth } from '../../Hooks/useAuth';
 import { getNotes } from '../../Services/NoteService';
 
@@ -26,7 +25,7 @@ export default function MyNotes() {
         };
 
         fetchNotes();
-    }, [user]);
+    }, [user, notes]);
 
     // console.log(notes.map((noteData,index)=>{
     //     console.log(noteData._id)
@@ -45,15 +44,19 @@ export default function MyNotes() {
                         <Loading />
                     ) : notes.length > 0 ? (
                         notes.map((noteData, index) => (
-                            <Notes
-                                key={index}
-                                id={noteData._id}
-                                title={noteData.title}
-                                text={noteData.content}
-                                date={noteData.date}
-                                category={noteData.category}
-                                onDelete={handleDeleteNote}
-                            />
+                            <>
+                                <Notes
+                                    key={index}
+                                    id={noteData._id}
+                                    title={noteData.title}
+                                    text={noteData.content}
+                                    date={noteData.date}
+                                    category={noteData.category}
+                                    onDelete={handleDeleteNote}
+                                    setNotes={setNotes}
+                                />
+                            </>
+
                         ))
                     ) : (
                         <div className='flex items-center justify-center bg-indigo-500 w-32 ml-60 h-20 absolute top-1/2 left-1/3 rounded-md'>
@@ -63,7 +66,6 @@ export default function MyNotes() {
                 </div>
             </div>
             <Create notes={notes} setNotes={setNotes} />
-            <UpdateNote notes={notes} setNotes={setNotes} />
         </>
     );
 }
