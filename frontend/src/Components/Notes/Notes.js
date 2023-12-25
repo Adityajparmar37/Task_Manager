@@ -4,10 +4,10 @@ import { MdDelete } from 'react-icons/md';
 import { deleteNote } from '../../Services/NoteService';
 import UpdateNote from '../UpdateNote/UpdateNote';
 
-export default function Notes({ id, title, text, date, category, onDelete, setNotes }) {
+export default function Notes({ id, title, text, date, category, onDelete,}) {
 
     const handleDelete = async () => {
-        console.log("Delete ID ==> ", id)
+        // console.log("Delete ID ==> ", id)
         const data = await deleteNote(id);
         onDelete(id);
         console.log(data);
@@ -15,7 +15,7 @@ export default function Notes({ id, title, text, date, category, onDelete, setNo
 
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const openModal = () => {
-        console.log("Modal open", modalIsOpen);
+        // console.log("Modal open", modalIsOpen);
         setModalIsOpen(true);
     };
 
@@ -47,7 +47,7 @@ export default function Notes({ id, title, text, date, category, onDelete, setNo
                             <h3 className='text-sm font-semibold text-white'>Update Note</h3>
                         </button>
                         {modalIsOpen && (
-                            <UpdateNote setNotes={setNotes} modalIsOpen={modalIsOpen} closeModal={closeModal} id={id} title={title} text={text} category={category} />
+                            <UpdateNote modalIsOpen={modalIsOpen} closeModal={closeModal} id={id} title={title} text={text} category={category} />
                         )}
                     </div>
                 </div>

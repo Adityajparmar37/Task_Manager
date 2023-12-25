@@ -53,7 +53,6 @@ export default function MyNotes() {
                                     date={noteData.date}
                                     category={noteData.category}
                                     onDelete={handleDeleteNote}
-                                    setNotes={setNotes}
                                 />
                             </>
 
