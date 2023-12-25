@@ -4,6 +4,7 @@ import Filter from '../../Components/Filter/Filter';
 import Header from '../../Components/Header/Header';
 import Loading from '../../Components/Loading/Loading';
 import Notes from '../../Components/Notes/Notes';
+import UpdateNote from '../../Components/UpdateNote/UpdateNote';
 import { useAuth } from '../../Hooks/useAuth';
 import { getNotes } from '../../Services/NoteService';
 
@@ -62,6 +63,7 @@ export default function MyNotes() {
                 </div>
             </div>
             <Create notes={notes} setNotes={setNotes} />
+            <UpdateNote notes={notes} setNotes={setNotes} />
         </>
     );
 }

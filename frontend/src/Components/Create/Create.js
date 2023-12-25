@@ -3,10 +3,12 @@ import Modal from 'react-modal';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import { createNote } from '../../Services/NoteService';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Create({ note, setNotes }) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    // const navigate = useNavigate();
     const [newNoteData, setnewNoteData] = useState({
         title: "",
         content: "",
@@ -23,18 +25,20 @@ export default function Create({ note, setNotes }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const noteData = await createNote(newNoteData)
+            const noteData = await createNote(newNoteData);
             setNotes((prevData) => [
                 ...prevData,
                 newNoteData
-            ])
-            console.log("New note created ? : ", noteData);
-        } catch (error) {
-            toast.error("Note not Created please try again !");
-            console.log("Error while creating note frontend useEffect : ", error)
-        }
+            ]);
+            toast.success("Note created successfully!");
 
-    }
+            // Redirect to the notes page after successful creation
+            // navigate("/notes");
+        } catch (error) {
+            toast.error("Note not created. Please try again!");
+            console.log("Error while creating note frontend useEffect: ", error);
+        }
+    };
 
     const handleChange = (e) => {
         setnewNoteData({
