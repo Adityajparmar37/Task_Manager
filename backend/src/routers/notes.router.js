@@ -1,3 +1,4 @@
+const { query } = require('express');
 const express = require('express');
 const router = express.Router();
 const handler = require('express-async-handler');
@@ -28,23 +29,27 @@ router.post("/create", handler(async (req, res, next) => {
     res.status(201).json(createdNote);
 }));
 
-// Get all notes for the authenticated user
-router.get("/mynotes", handler(async (req, res) => {
-    const notes = await Notes.find({ user: req.user.id });
-    res.json(notes);
-}));
+
+
 
 // Get a note by ID
-router.get("/getNoteById/:id", handler(async (req, res, next) => {
-    const noteId = req.params.id;
-    const note = await Notes.findById(noteId);
+router.get("/mynotes", handler(async (req, res) => {
+    const sort = req.query.sort || 'new';
+    console.log("Sort:", sort);
 
-    if (note) {
-        res.json(note);
-    } else {
-        next(errorHandler(404, "Note not found"));
+    let query = { user: req.user.id };
+
+    try {
+        const notes = await Notes.find(query)
+            .sort({ createdAt: sort === 'new' ? -1 : 1 });
+        console.log("Backend search and sort: ", notes);
+        res.json(notes);
+    } catch (error) {
+        console.error('Error fetching notes:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }));
+
 
 
 router.delete("/delete/:id", handler(async (req, res, next) => {
