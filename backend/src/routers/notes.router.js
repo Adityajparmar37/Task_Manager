@@ -34,13 +34,19 @@ router.post("/create", handler(async (req, res, next) => {
 
 // Get a note by ID
 router.get("/mynotes", handler(async (req, res) => {
-    const sort = req.query.sort || 'new';
+    const search = req.query.search;
+    const sort = req.query.sort;
     console.log("Sort:", sort);
+    console.log("Search:", search);
 
-    let query = { user: req.user.id };
+    const query = {};
 
+    if (search) {
+        query.title = { $regex: new RegExp(search, 'i') };
+    }
     try {
-        const notes = await Notes.find(query)
+        const notes = await Notes.find({ user: req.user.id })
+            .find(query)
             .sort({ createdAt: sort === 'new' ? -1 : 1 });
         console.log("Backend search and sort: ", notes);
         res.json(notes);

@@ -3,6 +3,14 @@ import axios from "axios";
 export const getNotes = async (search, sort) => {
     try {
 
+        if (search === undefined || search === null) {
+            search = '';
+        }
+
+        if (sort === undefined || sort === null) {
+            sort = 'new'; 
+        }
+
         console.log("Search == ", search, "sort ", sort)
         const { data } = await axios.get(`/api/notes/mynotes?search=${search}&sort=${sort}`);
         return data;
@@ -24,8 +32,9 @@ export const createNote = async (noteData) => {
 
 export const deleteNote = async (id) => {
     try {
-        // console.log("id==>", id)
-        const { data } = await axios.delete(`/ api / notes / delete /${id}`);
+        console.log("id==>", id)
+        const { data } = await axios.delete(`/api/notes/delete/${id}`);
+        console.log("Delete api ==> ", data);
         return data;
     } catch (error) {
         return error.response.data;

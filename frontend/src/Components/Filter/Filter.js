@@ -3,7 +3,7 @@ import { getNotes } from '../../Services/NoteService';
 
 export default function Filter({ setNotes }) {
     const [search, setSearch] = useState("");
-    const [sort, setSort] = useState("new");
+    const [sort, setSort] = useState("");
 
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function Filter({ setNotes }) {
         };
 
         fetchNotes();
-    }, [search, sort]);
+    }, [search, setNotes, sort]);
     return (
         <>
             <div className='flex flex-col bg-gray-200/40 w-1/5 mt-24 rounded-r-lg h-[30rem]'>
