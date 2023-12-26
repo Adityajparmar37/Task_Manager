@@ -1,18 +1,18 @@
 import axios from "axios";
 
-export const getNotes = async (search, sort) => {
+
+export const getNotes = async (filters, sort) => {
     try {
+        // Set default values for filters and sort
+        filters = filters || {};
+        sort = sort || 'new';
 
-        if (search === undefined || search === null) {
-            search = '';
-        }
+        console.log("filters == ", filters, "sort ", sort);
 
-        if (sort === undefined || sort === null) {
-            sort = 'new'; 
-        }
+        // Use URLSearchParams to serialize the filters object etla k object nae string ma convert kari dai
+        const params = new URLSearchParams(filters);
 
-        console.log("Search == ", search, "sort ", sort)
-        const { data } = await axios.get(`/api/notes/mynotes?search=${search}&sort=${sort}`);
+        const { data } = await axios.get(`/api/notes/mynotes?${params.toString()}&sort=${sort}`);
         return data;
     } catch (error) {
         return error.response.data;

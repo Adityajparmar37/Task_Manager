@@ -32,21 +32,23 @@ router.post("/create", handler(async (req, res, next) => {
 
 
 
-// Get a note by ID
 router.get("/mynotes", handler(async (req, res) => {
-    const search = req.query.search;
+    const Filters = req.query;
+
+    const { keywordSearch, title, Category } = Filters;
     const sort = req.query.sort;
     console.log("Sort:", sort);
-    console.log("Search:", search);
+    console.log("Filters:", Filters);
+    console.log("Filter title:", Filters.title);
 
-    const query = {};
+    const queryObject = {};
 
-    if (search) {
-        query.title = { $regex: new RegExp(search, 'i') };
+    if (title) {
+        queryObject.title = { $regex: new RegExp(title, 'i') };
     }
+
     try {
-        const notes = await Notes.find({ user: req.user.id })
-            .find(query)
+        const notes = await Notes.find({ user: req.user.id, ...queryObject })
             .sort({ createdAt: sort === 'new' ? -1 : 1 });
         console.log("Backend search and sort: ", notes);
         res.json(notes);
@@ -55,7 +57,6 @@ router.get("/mynotes", handler(async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }));
-
 
 
 router.delete("/delete/:id", handler(async (req, res, next) => {
