@@ -1,17 +1,25 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Hooks/useAuth';
 
 export default function Header() {
 
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const HandleLogOut = async () => {
+        await logout();
+        navigate("/");
+    }
+
     ///Testing
-    const user = true;
     return (
         <div className='bg-indigo-500/90'>
             <div className='flex justify-between items-center max-w-7xl mx-auto p-3'>
                 <Link to="/">
                     <h1 className='font-bold text-2xl text-white'>Note Manager</h1>
                 </Link>
-                {user ? (<ul className='flex gap-4 text-1xl text-white'>
+                {user ? (<ul className='flex gap-4 text-lg text-white'>
                     <Link to="/notes">
                         <li>My Notes</li>
                     </Link>
@@ -19,7 +27,9 @@ export default function Header() {
                         <li>Profile</li>
                     </Link>
                     <Link to="/Logout">
-                        <li>Logout</li>
+                        <button onClick={HandleLogOut}>
+                            <li>Logout</li>
+                        </button>
                     </Link>
                 </ul>) : (
 
