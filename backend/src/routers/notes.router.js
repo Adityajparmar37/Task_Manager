@@ -33,30 +33,46 @@ router.post("/create", handler(async (req, res, next) => {
 
 
 router.get("/mynotes", handler(async (req, res) => {
-    const Filters = req.query;
-
-    const { keywordSearch, title, Category } = Filters;
-    const sort = req.query.sort;
-    console.log("Sort:", sort);
-    console.log("Filters:", Filters);
-    console.log("Filter title:", Filters.title);
-
-    const queryObject = {};
-
-    if (title) {
-        queryObject.title = { $regex: new RegExp(title, 'i') };
-    }
-
     try {
-        const notes = await Notes.find({ user: req.user.id, ...queryObject })
-            .sort({ createdAt: sort === 'new' ? -1 : 1 });
-        console.log("Backend search and sort: ", notes);
-        res.json(notes);
+        const Filters = req.query;
+        const { keywordSearch, title, category } = Filters;
+        const sort = req.query.sort;
+
+        console.log("Sort:", sort);
+        console.log("Filters:", Filters);
+
+
+        //user ni notes find kare
+        const queryObject = { user: req.user.id };
+
+        //regex mongoDb ma search karva mate use thai
+        if (title) {
+            queryObject.title = { $regex: new RegExp(title, 'i') };
+        }
+
+        if (category) {
+            queryObject.category = { $regex: new RegExp(category, 'i') };
+        }
+
+        let filternotes = await Notes.find(queryObject).sort({ createdAt: sort === 'new' ? -1 : 1 });
+
+        if (keywordSearch) {
+            const keywordSearchRegex = new RegExp(keywordSearch, 'i');
+
+            //agar keyword hoi toh je notes avi ema joe , keywordkai pn hoi sake
+            filternotes = filternotes.filter((note) => (
+                note.title.match(keywordSearchRegex) || note.category.match(keywordSearchRegex) || note.content.match(keywordSearchRegex)
+            ));
+        }
+
+        console.log("Backend search and sort: ", filternotes);
+        res.json(filternotes);
     } catch (error) {
         console.error('Error fetching notes:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }));
+
 
 
 router.delete("/delete/:id", handler(async (req, res, next) => {

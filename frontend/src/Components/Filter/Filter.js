@@ -6,7 +6,7 @@ export default function Filter({ setNotes }) {
     const [filters, setFilters] = useState({
         keywordSearch: "",
         title: "",
-        Category: ""
+        category: ""
     })
 
 
@@ -39,7 +39,7 @@ export default function Filter({ setNotes }) {
 
                 <div>
                     <h1 className="font-semibold mt-8 ml-5 text-lg">Category</h1>
-                    <input className='p-1 rounded-md ml-4 w-10/12 border-none' placeholder='Eg: College' onChange={(e) => setFilters({ ...filters, Category: e.target.value })}></input>
+                    <input className='p-1 rounded-md ml-4 w-10/12 border-none' placeholder='Eg: College' onChange={(e) => setFilters({ ...filters, category: e.target.value })}></input>
                 </div>
 
 
