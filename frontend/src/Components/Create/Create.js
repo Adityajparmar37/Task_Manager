@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import { createNote } from '../../Services/NoteService';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
 
 export default function Create({ note, setNotes }) {
@@ -26,6 +25,7 @@ export default function Create({ note, setNotes }) {
         e.preventDefault();
         try {
             const noteData = await createNote(newNoteData);
+            console.log("Note created" , noteData)
             toast.success("Note created successfully!");
             setNotes((prevData) => {
                 return [

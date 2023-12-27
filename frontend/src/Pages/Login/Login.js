@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 // import Loading from '../../Components/Loading/Loading';
 // import { login } from '../../Services/UserService';
@@ -21,7 +21,7 @@ export default function Login() {
         if (!user) return;
 
         returnUrl ? navigate(returnUrl) : navigate("/notes");
-    },[user])
+    }, [user])
 
     ///API EndPoint
     const handlerSubmit = async (e) => {

@@ -12,7 +12,7 @@ export default function Notes({ id, title, text, date, category, onDelete, setNo
         const data = await deleteNote(id);
         onDelete(id);
         toast.success("Remove note Successfully");
-        // console.log(data);
+        console.log(data);
     }
 
     const [modalIsOpen, setModalIsOpen] = useState(false)

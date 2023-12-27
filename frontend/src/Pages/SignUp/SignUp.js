@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import Loading from '../../Components/Loading/Loading';
-import { singup } from '../../Services/UserService';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../Hooks/useAuth';
 
