@@ -7,6 +7,11 @@ import toast from 'react-hot-toast';
 
 export default function Notes({ id, title, text, date, category, onDelete, setNotes }) {
 
+    const [showMore, setShowMore] = useState(false);
+
+    const handleToggle = () => {
+        setShowMore(!showMore);
+    }
     const handleDelete = async () => {
         // console.log("Delete ID ==> ", id)
         const data = await deleteNote(id);
@@ -33,7 +38,12 @@ export default function Notes({ id, title, text, date, category, onDelete, setNo
                     </span>
                     <h2>{title}</h2>
                 </div>
-                <p className='text-sm leading-tight mt-5 font-semibold'>{text}</p>
+                <p className={`text-sm leading-tight mt-5 font-semibold ${showMore ? 'max-h-full overflow-y-auto' : 'max-h-20 overflow-hidden'}`}>
+                    {showMore ? text : `${text.slice(0, 100)}...`}
+                    <button className='text-blue-500 ml-3' onClick={handleToggle}>
+                        {showMore ? ' Show Less' : ' Show More'}
+                    </button>
+                </p>
                 <div className='footer absolute bottom-0 w-full left-0'>
                     <h5 className='font-semibold ml-7'>{category}</h5>
                     <div className='flex items-center justify-between mb-3 px-8 py-3'>
