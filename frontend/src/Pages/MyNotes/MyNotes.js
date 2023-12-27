@@ -12,8 +12,6 @@ export default function MyNotes() {
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const notesPerPage = 3; // Adjust this value based on your preference
-
     useEffect(() => {
         const fetchNotes = async () => {
             try {
@@ -33,24 +31,16 @@ export default function MyNotes() {
         setNotes((prevNotes) => prevNotes.filter((note) => note._id !== deletedNoteId));
     }
 
-    const indexOfLastNote = currentPage * notesPerPage;
-    const indexOfFirstNote = indexOfLastNote - notesPerPage;
-    const currentNotes = notes.slice(indexOfFirstNote, indexOfLastNote);
-
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
     return (
         <>
             <Header />
             <div className='flex relative'>
-                <Filter setNotes={setNotes} />
+                <Filter setNotes={setNotes} pageSize={6} />
                 <div className='grid grid-cols-3 gap-5 w-4/5 h-[39rem] mt-5 mx-auto ml-10'>
                     {loading ? (
                         <Loading />
-                    ) : currentNotes.length > 0 ? (
-                        currentNotes.map((noteData, index) => (
+                    ) : notes.length > 0 ? (
+                        notes.map((noteData, index) => (
                             <Notes
                                 key={index}
                                 id={noteData._id}
@@ -68,23 +58,6 @@ export default function MyNotes() {
                         </div>
                     )}
                 </div>
-            </div>
-            <div className='ml-5 justify-center items-center'>
-                <button
-                    className='bg-indigo-500/90 text-white rounded-md p-3 h-12 w-20'
-                    onClick={() => paginate(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-                <span className='mx-4'>Current Page: {currentPage}</span>
-                <button
-                    className='bg-indigo-500/90 text-white rounded-md p-3 h-12 w-20'
-                    onClick={() => paginate(currentPage + 1)}
-                    disabled={indexOfLastNote >= notes.length}
-                >
-                    Next
-                </button>
             </div>
             <Create notes={notes} setNotes={setNotes} />
         </>

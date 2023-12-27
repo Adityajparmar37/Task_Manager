@@ -34,12 +34,13 @@ router.post("/create", handler(async (req, res, next) => {
 
 router.get("/mynotes", handler(async (req, res) => {
     try {
-        const Filters = req.query;
+        const { page, pageSize, sort, ...Filters } = req.query;
         const { keywordSearch, title, category } = Filters;
-        const sort = req.query.sort;
 
         console.log("Sort:", sort);
         console.log("Filters:", Filters);
+        console.log("Filters:", page);
+        console.log("Filters:", pageSize);
 
 
         //user ni notes find kare
@@ -65,8 +66,19 @@ router.get("/mynotes", handler(async (req, res) => {
             ));
         }
 
+
+        //pagination apply
+        const currentPage = Number(page) || 1;
+        const limit = Number(pageSize) || 6;
+        const startindex = (currentPage - 1) * limit;
+        const endIndex = currentPage * limit;
+
+        const paginatedNotes = filternotes.slice(startindex, endIndex);
         console.log("Backend search and sort: ", filternotes);
-        res.json(filternotes);
+        res.json({
+            CurrentPage: currentPage,
+            paginatedNotes: paginatedNotes
+        });
     } catch (error) {
         console.error('Error fetching notes:', error);
         res.status(500).json({ error: 'Internal Server Error' });
